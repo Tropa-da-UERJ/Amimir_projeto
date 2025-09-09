@@ -14,5 +14,7 @@ O jogador enfrenta inimigos que representam fatores que prejudicam o sono (como 
 ## Diferencial
 O jogo une jogabilidade viciante com temática de saúde e educação sobre sono, usando mecânicas para conscientização sobre hábitos de descanso.
 
+## Capa do projeto
+![](capa.png)
 
 Este trabalho da disciplina **Programação Interativa de Jogos** foi desenvolvido por: Juliana Campos e Gabriel Chuairi
