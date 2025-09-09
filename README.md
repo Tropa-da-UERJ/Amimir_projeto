@@ -7,8 +7,8 @@ O jogador enfrenta inimigos que representam fatores que prejudicam o sono (como 
 
 ## Mecânica e pontuação
 
-- **Ataque com "Zs"**, representando o personagem enfrentando obstáculos para ter um bom sono no final.\
-- **Progressão por XP e níveis**, refletindo a evolução natural do sono.\
+- **Ataque com "Zs"**, representando o personagem enfrentando obstáculos para ter um bom sono no final.
+- **Progressão por XP e níveis**, refletindo a evolução natural do sono.
 - **Design adaptativo dos níveis** conforme a profundidade do sono, criando uma imersão.
 
 ## Diferencial
