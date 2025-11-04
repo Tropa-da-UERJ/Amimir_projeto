@@ -1,13 +1,11 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdbool.h>
 
-// Definições
 #define LARGURA_JANELA 800
 #define ALTURA_JANELA 600
 #define NUM_BOTOES 3
 
-// Estados do Jogo
 typedef enum {
     ESTADO_MENU,
     ESTADO_JOGO,
@@ -20,24 +18,23 @@ typedef struct {
     const char* texto;  // Texto do botão (opcional neste exemplo, mas bom para a estrutura)
 } Botao;
 
-// Variáveis Globais
 SDL_Window* janela = NULL;
 SDL_Renderer* renderizador = NULL;
 EstadoJogo estado_atual = ESTADO_MENU;
 int botao_selecionado = 0; // Índice do botão selecionado (0, 1 ou 2)
 
-// Funções
-bool inicializar_sdl();
-void fechar_sdl();
 void desenhar_menu(Botao botoes[]);
 void atualizar_menu(SDL_Event* evento, Botao botoes[]);
+void executar_acao();
+void fechar_sdl();
 
 // --- Função Principal ---
 int main(int argc, char* argv[]) {
-    if (!inicializar_sdl()) {
-        printf("Falha na inicialização da SDL! Encerrando...\n");
-        return 1;
-    }
+    SDL_Init(SDL_INIT_EVERYTHING);
+    janela = SDL_CreateWindow("SDL Teste", 
+                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
+                              LARGURA_JANELA, ALTURA_JANELA, SDL_WINDOW_SHOWN);
+    renderizador = SDL_CreateRenderer(janela, -1, SDL_RENDERER_ACCELERATED);
 
     // Criação dos botões
     Botao botoes[NUM_BOTOES];
@@ -79,7 +76,7 @@ int main(int argc, char* argv[]) {
             rodando = false;
         } else if (estado_atual == ESTADO_JOGO) {
             // Em uma aplicação real, aqui você chamaria a função de jogo
-            SDL_Delay(500); // Simula o jogo
+            SDL_Delay(500);
             printf("--- Jogo Iniciado! (Pressione ESC ou feche a janela para sair) ---\n");
             // Para sair do JOGO e voltar ao menu, você precisaria de mais lógica (ex: tecla ESC)
             // Para simplificar, vamos encerrar o loop principal no ESTADO_JOGO/ESTADO_SAIR.
@@ -88,13 +85,11 @@ int main(int argc, char* argv[]) {
 
         // Renderização
         if (estado_atual == ESTADO_MENU) {
-            // Limpa a tela com preto
             SDL_SetRenderDrawColor(renderizador, 0x00, 0x00, 0x00, 0xFF);
             SDL_RenderClear(renderizador);
 
             desenhar_menu(botoes);
 
-            // Apresenta o resultado
             SDL_RenderPresent(renderizador);
         }
     }
@@ -103,35 +98,20 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-// --- Funções de Inicialização e Fechamento da SDL ---
-bool inicializar_sdl() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("SDL não pôde inicializar! Erro: %s\n", SDL_GetError());
-        return false;
-    }
-
-    janela = SDL_CreateWindow("Menu Basico SDL2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, LARGURA_JANELA, ALTURA_JANELA, SDL_WINDOW_SHOWN);
-    if (janela == NULL) {
-        printf("Janela não pôde ser criada! Erro: %s\n", SDL_GetError());
-        return false;
-    }
-
-    renderizador = SDL_CreateRenderer(janela, -1, SDL_RENDERER_ACCELERATED);
-    if (renderizador == NULL) {
-        printf("Renderizador não pôde ser criado! Erro: %s\n", SDL_GetError());
-        return false;
-    }
-
-    return true;
-}
-
 void fechar_sdl() {
-    SDL_DestroyRenderer(renderizador);
-    SDL_DestroyWindow(janela);
+    if (renderizador != NULL) {
+        SDL_DestroyRenderer(renderizador);
+        renderizador = NULL;
+    }
+    if (janela != NULL) {
+        SDL_DestroyWindow(janela);
+        janela = NULL;
+    }
+    
     SDL_Quit();
+    printf("SDL encerrado com sucesso.\n");
 }
 
-// --- Funções do Menu ---
 void desenhar_menu(Botao botoes[]) {
     // Desenha os botões
     for (int i = 0; i < NUM_BOTOES; i++) {
@@ -148,14 +128,10 @@ void desenhar_menu(Botao botoes[]) {
         
         // Opcional: Desenha um contorno para realçar o botão selecionado
         if (i == botao_selecionado) {
-            SDL_SetRenderDrawColor(renderizador, 0xFF, 0x00, 0x00, 0xFF); // Contorno Vermelho
-            // Para desenhar um contorno, você pode usar SDL_RenderDrawRect, mas isso
-            // exigiria calcular um retângulo ligeiramente maior. Para simplificar, usamos
-            // a cor do retângulo para indicar a seleção.
+            SDL_SetRenderDrawColor(renderizador, 0xFF, 0x00, 0x00, 0xFF); 
         }
 
-        // Em uma implementação real, você usaria a SDL_ttf para renderizar o texto
-        // dentro de cada retângulo.
+        // Em uma implementação real, você usaria a SDL_ttf para renderizar o texto dentro de cada retângulo.
         printf("Botao %d: %s (x:%d, y:%d, w:%d, h:%d) %s\n", i, botoes[i].texto, botoes[i].retangulo.x, botoes[i].retangulo.y, botoes[i].retangulo.w, botoes[i].retangulo.h, (i == botao_selecionado) ? "SELECIONADO" : "");
     }
 }
@@ -179,7 +155,6 @@ void executar_acao() {
 void atualizar_menu(SDL_Event* evento, Botao botoes[]) {
     switch (evento->type) {
         case SDL_KEYDOWN:
-            // --- Entrada do Teclado ---
             switch (evento->key.keysym.sym) {
                 case SDLK_UP:
                     botao_selecionado = (botao_selecionado - 1 + NUM_BOTOES) % NUM_BOTOES;
@@ -195,7 +170,6 @@ void atualizar_menu(SDL_Event* evento, Botao botoes[]) {
             break;
 
         case SDL_MOUSEMOTION:
-            // --- Mouse: Hover (Seleção) ---
             for (int i = 0; i < NUM_BOTOES; i++) {
                 // SDL_PointInRect verifica se o ponto (mouse x, mouse y) está dentro do SDL_Rect
                 SDL_Point ponto_mouse = {evento->motion.x, evento->motion.y};
@@ -207,7 +181,6 @@ void atualizar_menu(SDL_Event* evento, Botao botoes[]) {
             break;
 
         case SDL_MOUSEBUTTONDOWN:
-            // --- Mouse: Click (Inicializar) ---
             if (evento->button.button == SDL_BUTTON_LEFT) {
                 // Verifica se o clique foi no botão atualmente selecionado (ou em qualquer um)
                 for (int i = 0; i < NUM_BOTOES; i++) {
@@ -222,3 +195,4 @@ void atualizar_menu(SDL_Event* evento, Botao botoes[]) {
             break;
     }
 }
+
