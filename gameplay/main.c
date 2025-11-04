@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <SDL.h>
 #include "game.h" // Inclui a lógica do jogo
 #include "menu_rect.h" // Inclui a lógica do menu
@@ -29,31 +30,31 @@ int main(int argc, char* argv[]) {
             }
 
             if (currentState == GAME_STATE_MENU) {
-                handleMenuInput(&event, &currentState);
+                handleMenuRectInput(&event, &currentState);
             } else if (currentState == GAME_STATE_PLAYING) {
                 handleGameInput(&event);
             }
         }
 
         // Limpa a tela
-        SDL_RenderClear(renderer);
+        SDL_RenderClear(ren);
 
         // Renderização por estado
         if (currentState == GAME_STATE_MENU) {
             // updateMenu() // (Se tiver animações)
-            renderMenu(renderer);
+            renderMenuRect(ren);
         } else if (currentState == GAME_STATE_PLAYING) {
             updateGame();
-            renderGame(renderer);
+            renderGame(ren);
         } else if (currentState == GAME_STATE_SCOREBOARD) {
             updateScoreboard(); 
-            renderScoreboard(renderer);
+            renderScoreboard(ren);
         } else if (currentState == GAME_STATE_QUIT) {
-            isRunning = false; // Quebra o loop
+            game_running = false; // Quebra o loop
         }
 
         // Apresenta na tela
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(ren);
     }
 
     // Limpa os recursos
