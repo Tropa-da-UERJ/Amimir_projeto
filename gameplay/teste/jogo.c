@@ -13,9 +13,10 @@
 #define BULLET_SPEED 10
 #define BULLET_SIZE 8
 
-#define MAX_ENEMIES 20
+#define MAX_ENEMIES 20 // ou 40 (mais inimigos na tela ao mesmo tempo)
 #define MAX_BULLETS 50
-#define ENEMY_SPAWN_INTERVAL 2000 // em milissegundos
+#define ENEMY_SPAWN_INTERVAL 2000 // em milissegundos ou 400 (mais rapido)
+#define PLAYER_STARTING_LIVES 3
 
 // --- Estruturas de Dados ---
 
@@ -24,6 +25,7 @@ typedef struct {
     SDL_Rect rect;
     int dx, dy; // Velocidade/direção atual
     int last_move_dx, last_move_dy; // Última direção de movimento (para atirar)
+    int lives;
 } Player;
 
 // Representa um inimigo
@@ -53,6 +55,7 @@ void initPlayer(Player *player) {
     player->dy = 0;
     player->last_move_dx = 1; // Padrão: atirar para a direita
     player->last_move_dy = 0;
+    player->lives = PLAYER_STARTING_LIVES;
 }
 
 /**
@@ -162,28 +165,39 @@ void handleInput(Player *player, Bullet bullets[], bool *running) {
     player->dx = 0;
     player->dy = 0;
 
+    // --- LÓGICA DE MOVIMENTO MODIFICADA ---
+    // Usamos -= e += para que teclas opostas (esquerda/direita) 
+    // pressionadas ao mesmo tempo se anulem.
     if (keystates[SDL_SCANCODE_LEFT] || keystates[SDL_SCANCODE_A]) {
-        player->dx = -PLAYER_SPEED;
-        player->last_move_dx = -1;
-        player->last_move_dy = 0;
+        player->dx -= PLAYER_SPEED;
     }
     if (keystates[SDL_SCANCODE_RIGHT] || keystates[SDL_SCANCODE_D]) {
-        player->dx = PLAYER_SPEED;
-        player->last_move_dx = 1;
-        player->last_move_dy = 0;
+        player->dx += PLAYER_SPEED;
     }
     if (keystates[SDL_SCANCODE_UP] || keystates[SDL_SCANCODE_W]) {
-        player->dy = -PLAYER_SPEED;
-        player->last_move_dx = 0;
-        player->last_move_dy = -1;
+        player->dy -= PLAYER_SPEED;
     }
     if (keystates[SDL_SCANCODE_DOWN] || keystates[SDL_SCANCODE_S]) {
-        player->dy = PLAYER_SPEED;
-        player->last_move_dx = 0;
-        player->last_move_dy = 1;
+        player->dy += PLAYER_SPEED;
+    }
+
+    // --- LÓGICA DE DIREÇÃO DE TIRO MODIFICADA ---
+    // Atualiza a "última direção" apenas se o jogador estiver se movendo.
+    // Isso permite atirar na diagonal e também atirar parado.
+    if (player->dx != 0 || player->dy != 0) {
+        
+        // Define a direção do tiro (normalizada para -1, 0, ou 1)
+        // Isso captura movimentos cardinais e diagonais.
+        
+        if (player->dx < 0) player->last_move_dx = -1;
+        else if (player->dx > 0) player->last_move_dx = 1;
+        else player->last_move_dx = 0;
+        
+        if (player->dy < 0) player->last_move_dy = -1;
+        else if (player->dy > 0) player->last_move_dy = 1;
+        else player->last_move_dy = 0;
     }
 }
-
 /**
  * Atualiza o estado de todos os objetos do jogo.
  */
@@ -250,8 +264,28 @@ void update(Player *player, Enemy enemies[], Bullet bullets[], bool *running, Ui
     for (int i = 0; i < MAX_ENEMIES; i++) {
         if (enemies[i].active) {
             if (SDL_HasIntersection(&player->rect, &enemies[i].rect)) {
-                printf("GAME OVER! Você colidiu com um inimigo.\n");
-                *running = false; // Encerra o jogo
+                
+                player->lives--; // Perde uma vida
+                printf("Vida perdida! Vidas restantes: %d\n", player->lives);
+
+                if (player->lives <= 0) {
+                    // Se não há mais vidas, fim de jogo
+                    printf("GAME OVER! Você não tem mais vidas.\n");
+                    *running = false; // Encerra o jogo
+                } else {
+                    // Se ainda há vidas, reposiciona o jogador e limpa os inimigos
+                    player->rect.x = (SCREEN_WIDTH - SQUARE_SIZE) / 2;
+                    player->rect.y = (SCREEN_HEIGHT - SQUARE_SIZE) / 2;
+                    player->dx = 0;
+                    player->dy = 0;
+                    
+                    // Limpa todos os inimigos da tela para dar um respiro
+                    initEnemies(enemies); 
+                }
+                
+                // Importante: Sair do loop de verificação de inimigos
+                // para evitar perder múltiplas vidas no mesmo frame.
+                break; 
             }
         }
     }
@@ -262,7 +296,7 @@ void update(Player *player, Enemy enemies[], Bullet bullets[], bool *running, Ui
  */
 void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bullets[]) {
     // Limpa a tela (fundo preto)
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 50, 161, 157, 255);
     SDL_RenderClear(renderer);
 
     // Desenha o Jogador (Roxo)
@@ -351,8 +385,16 @@ int main(int argc, char *argv[]) {
         
         // 2. Atualizar Estado do Jogo
         update(&player, enemies, bullets, &running, &lastEnemySpawnTime);
+
+        // 3. Atualizar Título da Janela (Feedback de Vidas)
+        if (running) { // Só atualiza se o jogo não acabou de terminar
+            char windowTitle[100];
+            // sprintf é usado para formatar uma string
+            sprintf(windowTitle, "Caça aos Quadrados - Vidas: %d", player.lives);
+            SDL_SetWindowTitle(window, windowTitle);
+        }
         
-        // 3. Renderizar (Desenhar) na Tela
+        // 4. Renderizar (Desenhar) na Tela
         render(renderer, player, enemies, bullets);
 
         // Limita o framerate para ~60 FPS
