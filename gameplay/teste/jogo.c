@@ -15,7 +15,7 @@
 
 #define MAX_ENEMIES 20 // ou 40 (mais inimigos na tela ao mesmo tempo)
 #define MAX_BULLETS 50
-#define ENEMY_SPAWN_INTERVAL 2000 // em milissegundos ou 400 (mais rapido)
+#define ENEMY_SPAWN_INTERVAL 2000 // em milissegundos ou 800 (mais rapido)
 #define PLAYER_STARTING_LIVES 3
 
 // --- Estruturas de Dados ---
