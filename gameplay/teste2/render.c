@@ -1,6 +1,15 @@
 #include "render.h"
+#include "text.h"
 
-void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bullets[], Bullet enemyBullets[], GameState currentState) {
+// Cores que usaremos
+SDL_Color white = {255, 255, 255, 255};
+SDL_Color black = {0, 0, 0, 255};
+SDL_Color red = {255, 0, 0, 255};
+SDL_Color green = {0, 255, 0, 255};
+SDL_Color blue = {0, 0, 255, 255};
+SDL_Color yellow = {255, 255, 0, 255};
+
+void render(SDL_Renderer *renderer, App *app, Player player, Enemy enemies[], Bullet bullets[], Bullet enemyBullets[], GameState currentState) {
     // Limpa a tela (fundo azul)
     SDL_SetRenderDrawColor(renderer, 50, 161, 157, 255);
     SDL_RenderClear(renderer);
@@ -46,8 +55,24 @@ void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bulle
         }
     }
     
+    // Desenhar a HUD (Health, Points, XP) ---
+    if (app->font) { // Só desenha se a fonte foi carregada
+        char hudText[150];
+        
+        // 1. HUD Superior Esquerda (Vida e Pontos)
+        sprintf(hudText, "HP: %d/%d | PONTOS: %d", player.hp, player.max_hp, player.points);
+        drawText(renderer, app->font, hudText, 10, 10, white);
+        
+        // 2. HUD Superior Direita (XP para o Próximo Nível)
+        sprintf(hudText, "XP: %d / %d", player.xp, player.xp_toLevel);
+        int textX = SCREEN_WIDTH - 200; // Começa 200 pixels da direita
+        drawText(renderer, app->font, hudText, textX, 10, yellow);
+    }
+    
+    // Desenha o Menu de Level Up
     if (currentState == STATE_LEVELUP) {
         
+        //escurecer a tela
         SDL_SetRenderDrawBlendMode (renderer, SDL_BLENDMODE_BLEND); // blend permite transparencia
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 150); // cor preta semi-transparente
@@ -55,6 +80,15 @@ void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bulle
         SDL_Rect screenRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
         SDL_RenderFillRect(renderer, &screenRect);
         
+        // Desenha as opções (no centro da tela)
+        if (app->font) {
+            drawText(renderer, app->font, "--- LEVEL UP! ---", 250, 150, white);
+            drawText(renderer, app->font, "Escolha seu upgrade! (Aperte 1, 2 ou 3...)", 250, 200, white);
+            
+            drawText(renderer, app->font, "1. HP Maximo +5", 250, 250, red);
+            drawText(renderer, app->font, "2. Cadencia de Tiro +10%", 250, 280, red);
+            drawText(renderer, app->font, "3. Velocidade de Movimento +1", 250, 310, red);
+        }
     }
 
     SDL_RenderPresent(renderer);

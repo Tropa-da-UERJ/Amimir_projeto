@@ -20,7 +20,7 @@ LIBS = -lSDL2 -lSDL2_ttf -lm
 # --- Arquivos do Projeto ---
 
 # Lista de todos os seus arquivos-fonte (.c)
-SRC = main.c init.c input.c update.c render.c
+SRC = main.c init.c input.c update.c render.c text.c
 
 # Converte a lista de .c para uma lista de .o (arquivos-objeto)
 # Ex: "main.c init.c" vira "main.o init.o"

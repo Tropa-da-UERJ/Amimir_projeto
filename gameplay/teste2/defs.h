@@ -12,7 +12,7 @@
 #define SQUARE_SIZE 30
 
 #define PLAYER_SPEED 5
-#define PLAYER_STARTING_HP 20
+#define PLAYER_STARTING_HP 10
 #define PLAYER_FIRE_DELAY 750  // ms entre tiros
 #define PLAYER_BULLET_SPEED 10
 #define PLAYER_MAX_BULLETS 200
@@ -23,7 +23,7 @@
 
 #define INVULNERABILITY_DURATION 1000  // 1 segundo
 
-#define MAX_ENEMIES 20
+#define MAX_ENEMIES 15
 #define ENEMY_SPAWN_INTERVAL 800 // em milissegundos
 
 #define ANXIETY_XP_GIVEN 2
@@ -89,5 +89,13 @@ typedef struct {
 typedef struct {
     TTF_Font *font;
 } App;
+
+typedef struct {
+    SDL_Rect rect;
+    SDL_Texture* texNormal;
+    SDL_Texture* texSelected;
+    bool isSelected;
+    GameState targetState; 
+} Button;
 
 #endif // DEFS_H

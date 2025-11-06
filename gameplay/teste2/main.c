@@ -74,7 +74,11 @@ int main(void) {
     App app = { .font = NULL };
 
     // Carregar a fonte
-    app.font = TTF_OpenFont("font.ttf", 24); //font.ttf é o arquivo fonte, 24 é o tamanho
+    // font.ttf é o arquivo fonte, 24 é o tamanho
+    app.font = TTF_OpenFont("ComicReliefRegular.ttf", 24);
+    if (!app.font) {
+        fprintf(stderr, "Erro ao carregar a fonte: %s\n", TTF_GetError());
+    }
 
     // Inicializa os objetos (usando nosso módulo init)
     initPlayer(&player);
@@ -117,17 +121,17 @@ int main(void) {
         // 4. Atualizar Título da Janela
         if (running) {
             char windowTitle[100];
-            sprintf(windowTitle, "A mimir v0.5 - Vida: %d/%d | Pontos: %d | XP: %d/%d", player.hp, player.max_hp, player.points, player.xp, player.xp_toLevel);
+            sprintf(windowTitle, "A mimir v0.5 - HP: %d/%d | Pontos: %d | XP: %d/%d", player.hp, player.max_hp, player.points, player.xp, player.xp_toLevel);
             SDL_SetWindowTitle(window, windowTitle);
         }
         
         // 5. Renderizar (módulo render)
-        render(renderer, player, enemies, bullets, enemyBullets, currentState);
+        render(renderer, &app, player, enemies, bullets, enemyBullets, currentState);
 
         SDL_Delay(16); // Limita para ~60 FPS
     }
 
     // --- Limpeza ---
-    cleanup(window, renderer);
+    cleanup(window, renderer, &app);
     return 0;
 }

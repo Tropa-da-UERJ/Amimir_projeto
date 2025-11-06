@@ -1,5 +1,5 @@
-#ifndef DEFS_H
-#define DEFS_H
+#ifndef TEXT_H
+#define TEXT_H
 
 #include "defs.h"
 
