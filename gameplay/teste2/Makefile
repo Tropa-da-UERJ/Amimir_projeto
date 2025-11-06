@@ -4,7 +4,7 @@
 CC = gcc
 
 # Nome do seu programa executável final
-TARGET = jogo
+TARGET = amimir
 
 # Flags (opções) para o compilador:
 # -Wall -Wextra = Mostra todos os avisos (MUITO recomendado)

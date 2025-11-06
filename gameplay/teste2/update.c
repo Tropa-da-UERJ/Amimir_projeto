@@ -148,7 +148,7 @@ void update(Player *player, Enemy enemies[], Bullet bullets[], Bullet enemyBulle
     player->rect.y += player->dy;
 
     Uint32 now = SDL_GetTicks();
-        if (now - player->lastShotTime >= PLAYER_FIRE_DELAY) {
+        if (now - player->lastShotTime >= player->fire_delay) {
         shootBullet(player, bullets);
         player->lastShotTime = now;
         }

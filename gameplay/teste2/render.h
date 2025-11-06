@@ -3,6 +3,6 @@
 
 #include "defs.h"
 
-void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bullets[], Bullet enemyBullets[]);
+void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bullets[], Bullet enemyBullets[], GameState currentState);
 
 #endif // RENDER_H

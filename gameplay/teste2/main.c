@@ -58,6 +58,8 @@ int main(int argc, char *argv[]) {
     Bullet enemyBullets[CAFEINA_MAX_BULLETS];
     bool running = true;
     Uint32 lastEnemySpawnTime = 0;
+    
+    GameState currentState = STATE_PLAYING;
 
     // Inicializa os objetos (usando nosso módulo init)
     initPlayer(&player);
@@ -68,20 +70,42 @@ int main(int argc, char *argv[]) {
     // --- Loop Principal do Jogo ---
     while (running) {
         
-        // 1. Processar Entradas (módulo input)
-        handleInput(&player, &running);
+        // 1. Processar Entradas
+        if (currentState == STATE_PLAYING) {
+            handleInput(&player, &running);
+        } else if (currentState == STATE_LEVELUP) {
+            handleLevelUpInput(&player, &currentState, &running);
+        }
         
-        // 2. Atualizar Estado do Jogo (módulo update)
-        update(&player, enemies, bullets, enemyBullets, &running, &lastEnemySpawnTime);
+        // 2. Atualizar Estado do Jogo
+        if (currentState == STATE_PLAYING) {
+            update(&player, enemies, bullets, enemyBullets, &running, &lastEnemySpawnTime);
+        }
+        
+        // 3. Verificar LevelUP
+        if (currentState == STATE_PLAYING && player.xp >= player.xp_toLevel) {
 
-        // 3. Atualizar Título da Janela
+            currentState =  STATE_LEVELUP;
+            
+            player.xp -= player.xp_toLevel; //consome o xp
+            player.xp_toLevel = (int)(player.xp_toLevel * XP_LEVEL_SCALING);
+        }
+            // mostra as opções de level up NO CONSOLE
+            printf("\n -- LEVEL UP --\n")
+            printf("Escolha seu upgrade:\n")
+            printf("1. +5 HP Máximo\n")
+            printf("2. +10%% Cadencia de Tiro\n")
+            printf("3. +1 Velocidade de Movimento\n")
+            printf("Pressione 1, 2 ou 3...\n")
+
+        // 4. Atualizar Título da Janela
         if (running) {
             char windowTitle[100];
-            sprintf(windowTitle, "A mimir v0.5 - Vida: %d | Pontos: %d | XP: %d", player.hp, player.points, player.xp);
+            sprintf(windowTitle, "A mimir v0.5 - Vida: %d/%d | Pontos: %d | XP: %d/%d", player.hp, player.max_hp, player.points, player.xp, player.xp_toLevel);
             SDL_SetWindowTitle(window, windowTitle);
         }
         
-        // 4. Renderizar (módulo render)
+        // 5. Renderizar (módulo render)
         render(renderer, player, enemies, bullets, enemyBullets);
 
         SDL_Delay(16); // Limita para ~60 FPS

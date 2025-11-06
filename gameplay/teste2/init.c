@@ -8,11 +8,14 @@ void initPlayer(Player *player) {
     player->rect.y = (SCREEN_HEIGHT - SQUARE_SIZE) / 2;
     player->dx = 0;
     player->dy = 0;
-    player->hp = PLAYER_STARTING_HP;
+    player->max_hp = PLAYER_STARTING_HP;
+    player->hp = player->max_hp;
     player->invulnerable = false;
     player->invulnerableTime = 0;
     player->points = 0;
     player->xp = 0;
+    player->speed = PLAYER_SPEED;
+    player->fire_delay = PLAYER_FIRE_DELAY;
 }
 
 void initEnemies(Enemy enemies[]) {

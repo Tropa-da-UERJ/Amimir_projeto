@@ -40,18 +40,29 @@
 #define SEPARATION_STRENGTH 0.3f
 #define MAX_OVERLAP 15
 
+// --- Estados do Jogo ---
+typedef enum {
+    STATE_PLAYING
+    STATE_LEVELUP
+    STATE_MENU
+    STATE_END
+    STATE_PAUSED
+} GameState;
+
 // --- Estruturas de Dados ---
 
 typedef struct {
     SDL_Rect rect;
     int dx, dy;
     int hp;
+    int max_hp; // para o levelup
     Uint32 lastShotTime;
     bool invulnerable;
     Uint32 invulnerableTime;
     int xp;
-    int xp_toLevel;
     int points;
+    float speed;
+    float fire_delay;
 } Player;
 
 typedef struct {

@@ -1,6 +1,6 @@
 #include "render.h"
 
-void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bullets[], Bullet enemyBullets[]) {
+void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bullets[], Bullet enemyBullets[], GameState currentState) {
     // Limpa a tela (fundo azul)
     SDL_SetRenderDrawColor(renderer, 50, 161, 157, 255);
     SDL_RenderClear(renderer);
@@ -44,6 +44,17 @@ void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bulle
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // preto
             SDL_RenderFillRect(renderer, &enemyBullets[i].rect);
         }
+    }
+    
+    if (currentState == STATE_LEVELUP) {
+        
+        SDL_SetRenderDrawBlendMode (renderer, SDL_BLENDMODE_BLEND) // blend permite transparencia
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 150); // cor preta semi-transparente
+
+        SDL_Rect screenRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+        SDL_RenderFillRect(renderer, &screenRect);
+        
     }
 
     SDL_RenderPresent(renderer);
