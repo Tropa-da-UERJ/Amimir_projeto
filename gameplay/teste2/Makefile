@@ -10,12 +10,12 @@ TARGET = amimir
 # -Wall -Wextra = Mostra todos os avisos (MUITO recomendado)
 # -g = Inclui informações de debug (para usar com o gdb)
 # -std=c99 = Usa o padrão C99
-CFLAGS = -Wall -Wextra -g -std=c99
+CFLAGS = -Wall -Wextra -g -std=c99 -I/usr/include/SDL2
 
 # Bibliotecas (libs) que precisamos linkar:
 # -lSDL2 = A biblioteca principal da SDL2
 # -lm = A biblioteca de matemática (para sqrtf, etc.)
-LIBS = -lSDL2 -lm
+LIBS = -lSDL2 -lSDL2_ttf -lm
 
 # --- Arquivos do Projeto ---
 

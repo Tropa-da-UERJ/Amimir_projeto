@@ -48,7 +48,7 @@ void render(SDL_Renderer *renderer, Player player, Enemy enemies[], Bullet bulle
     
     if (currentState == STATE_LEVELUP) {
         
-        SDL_SetRenderDrawBlendMode (renderer, SDL_BLENDMODE_BLEND) // blend permite transparencia
+        SDL_SetRenderDrawBlendMode (renderer, SDL_BLENDMODE_BLEND); // blend permite transparencia
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 150); // cor preta semi-transparente
 

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 // Nossos módulos customizados
 #include "defs.h"
@@ -9,22 +10,31 @@
 #include "input.h"
 #include "update.h"
 #include "render.h"
+#include "text.h"
 
 /**
  * Libera os recursos da SDL.
  */
-void cleanup(SDL_Window *window, SDL_Renderer *renderer) {
+void cleanup(SDL_Window *window, SDL_Renderer *renderer, App *app) {
+    if (app->font) {
+        TTF_CloseFont(app->font);
+    }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     SDL_Quit();
 }
 
 // --- Função Principal ---
-int main(int argc, char *argv[]) {
+int main(void) {
     // Inicialização da SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         fprintf(stderr, "Erro ao inicializar SDL: %s\n", SDL_GetError());
         return 1;
+    }
+
+    if (TTF_Init() == -1) {
+        fprintf(stderr, "Erro ao inicializar SDL_ttf: %s\n", TTF_GetError());
     }
 
     // Criação da Janela
@@ -61,6 +71,11 @@ int main(int argc, char *argv[]) {
     
     GameState currentState = STATE_PLAYING;
 
+    App app = { .font = NULL };
+
+    // Carregar a fonte
+    app.font = TTF_OpenFont("font.ttf", 24); //font.ttf é o arquivo fonte, 24 é o tamanho
+
     // Inicializa os objetos (usando nosso módulo init)
     initPlayer(&player);
     initEnemies(enemies);
@@ -88,16 +103,17 @@ int main(int argc, char *argv[]) {
             currentState =  STATE_LEVELUP;
             
             player.xp -= player.xp_toLevel; //consome o xp
-            player.xp_toLevel = (int)(player.xp_toLevel * XP_LEVEL_SCALING);
-        }
-            // mostra as opções de level up NO CONSOLE
-            printf("\n -- LEVEL UP --\n")
-            printf("Escolha seu upgrade:\n")
-            printf("1. +5 HP Máximo\n")
-            printf("2. +10%% Cadencia de Tiro\n")
-            printf("3. +1 Velocidade de Movimento\n")
-            printf("Pressione 1, 2 ou 3...\n")
+            player.xp_toLevel = (int)(player.xp_toLevel * PLAYER_XP_LEVEL_SCALING); //aumenta o custo do proximo nivel
 
+            // mostra as opções de level up NO CONSOLE
+            printf("\n -- LEVEL UP --\n");
+            printf("Escolha seu upgrade:\n");
+            printf("1. +5 HP Máximo\n");
+            printf("2. +10%% Cadência de Tiro\n");
+            printf("3. +1 Velocidade de Movimento\n");
+            printf("Pressione 1, 2 ou 3...\n");
+        } 
+            
         // 4. Atualizar Título da Janela
         if (running) {
             char windowTitle[100];
@@ -106,7 +122,7 @@ int main(int argc, char *argv[]) {
         }
         
         // 5. Renderizar (módulo render)
-        render(renderer, player, enemies, bullets, enemyBullets);
+        render(renderer, player, enemies, bullets, enemyBullets, currentState);
 
         SDL_Delay(16); // Limita para ~60 FPS
     }

@@ -14,6 +14,7 @@ void initPlayer(Player *player) {
     player->invulnerableTime = 0;
     player->points = 0;
     player->xp = 0;
+    player->xp_toLevel = PLAYER_XP_TOLEVEL;
     player->speed = PLAYER_SPEED;
     player->fire_delay = PLAYER_FIRE_DELAY;
 }

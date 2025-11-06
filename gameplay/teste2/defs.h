@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 // --- Constantes do Jogo ---
 #define SCREEN_WIDTH 800
@@ -15,6 +16,8 @@
 #define PLAYER_FIRE_DELAY 750  // ms entre tiros
 #define PLAYER_BULLET_SPEED 10
 #define PLAYER_MAX_BULLETS 200
+#define PLAYER_XP_TOLEVEL 10
+#define PLAYER_XP_LEVEL_SCALING 1.5f // proximo nivel custa 1.5x(50%) mais
 
 #define BULLET_SIZE 8
 
@@ -42,10 +45,10 @@
 
 // --- Estados do Jogo ---
 typedef enum {
-    STATE_PLAYING
-    STATE_LEVELUP
-    STATE_MENU
-    STATE_END
+    STATE_PLAYING,
+    STATE_LEVELUP,
+    STATE_MENU,
+    STATE_END,
     STATE_PAUSED
 } GameState;
 
@@ -60,6 +63,7 @@ typedef struct {
     bool invulnerable;
     Uint32 invulnerableTime;
     int xp;
+    int xp_toLevel;
     int points;
     float speed;
     float fire_delay;
@@ -81,5 +85,9 @@ typedef struct {
     int dx, dy;
     bool active;
 } Bullet;
+
+typedef struct {
+    TTF_Font *font;
+} App;
 
 #endif // DEFS_H

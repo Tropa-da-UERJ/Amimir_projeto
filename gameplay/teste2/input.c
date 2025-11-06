@@ -47,8 +47,8 @@ void handleLevelUpInput (Player *player, GameState *currentState, bool *running)
                 // +HP Máximo
                 case SDLK_1:
                 case SDLK_KP_1:
-                    player->hp_max += 5;
-                    player->hp = player->hp_max; //também cura
+                    player->max_hp += 5;
+                    player->hp = player->max_hp; //também cura
                     printf("Upgrade: HP Máximo +5! \n");
                     break;
 
