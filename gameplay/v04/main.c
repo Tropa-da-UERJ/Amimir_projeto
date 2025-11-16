@@ -98,8 +98,6 @@ int main(void) {
 
         // --- PROCESSAMENTO DE ENTRADAS (INPUT) ---
         while (SDL_PollEvent(&event)) {
-            // O handleMenuRectInput já trata o SDL_QUIT, 
-            // mas é bom manter aqui por segurança.
             if (event.type == SDL_QUIT) {
                 currentState = STATE_QUIT;
             }
