@@ -63,7 +63,7 @@ int main(void) {
     srand(time(NULL));
 
     // --- Estado do Jogo ---
-    Player player = {0};
+    Player player;
     Enemy enemies[MAX_ENEMIES] = {0};
     Bullet bullets[PLAYER_MAX_BULLETS] = {0};
     Bullet enemyBullets[CAFEINA_MAX_BULLETS] = {0};
@@ -86,7 +86,7 @@ int main(void) {
     }
 
     // Inicializa os objetos (usando nosso módulo init)
-    initPlayer(&player);
+    initPlayer(&player, renderer);
     initEnemies(enemies);
     initBullets(bullets);
     initEnemyBullets(enemyBullets); // Nome atualizado
@@ -108,13 +108,13 @@ int main(void) {
                     menu_handle_input(&event, &currentState);
                     break;
                 case STATE_PLAYING:
-                    handleInput(&player, &running);
+                    handlePlayingInput_Events(&event, &running);
                     break;
                 case STATE_LEVELUP:
-                    handleLevelUpInput(&player, &currentState, &running);
+                    handleLevelUpInput(&event, &player, &currentState, &running);
                     break;
                 case STATE_END:
-                    handleEndInput(&currentState, &running);
+                    handleEndInput(&event, &currentState, &running);
                     break;
                 // case GAME_STATE_SCOREBOARD:
                 //    handleScoreboardInput(&currentState, &running); // Se existir
@@ -141,7 +141,9 @@ int main(void) {
 
         // 3. Atualizar Estado do Jogo
         if (currentState == STATE_PLAYING) {
-            // ATUALIZADO: Passa &currentState
+
+            handlePlayingInput_State(&player);
+            
             update(&player, enemies, bullets, enemyBullets, &running, &lastEnemySpawnTime, &currentState);
         }
                         
