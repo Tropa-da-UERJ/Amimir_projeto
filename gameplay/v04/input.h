@@ -3,8 +3,9 @@
 
 #include "defs.h"
 
-void handleInput(Player *player, bool *running);
-void handleLevelUpInput (Player *player, GameState *currentState, bool *running);
-void handleEndInput(GameState *currentState, bool *running);
+void handlePlayingInput_Events(SDL_Event *event, bool *running);
+void handlePlayingInput_State(Player *player);
+void handleLevelUpInput (SDL_Event *event, Player *player, GameState *currentState, bool *running);
+void handleEndInput(SDL_Event *event, GameState *currentState, bool *running);
 
 #endif // INPUT_H
