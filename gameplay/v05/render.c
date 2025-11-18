@@ -93,7 +93,7 @@ void render(SDL_Renderer * renderer, App * app, Player player, Enemy enemies[], 
 
     // --- 3. Desenha o Fim de Jogo (STATE_END) ---
   else if (currentState == STATE_END) {
-    fim_render(renderer);
+    fim_render(renderer, player, app);
   }
 
   // --- 4. Desenha a Tela de Level Up (POR CIMA de STATE_PLAYING) ---

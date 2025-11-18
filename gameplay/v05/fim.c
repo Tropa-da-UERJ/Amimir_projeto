@@ -1,6 +1,16 @@
 #include "fim.h"
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
+#include "text.h"
+#include "defs.h"
+
+// Cores que usaremos para o texto
+SDL_Color whitef = {255, 255, 255, 255};
+SDL_Color blackf = {0, 0, 0, 255};
+SDL_Color redf = {255, 0, 0, 255};
+SDL_Color greenf = {0, 255, 0, 255};
+SDL_Color bluef = {0, 0, 255, 255};
+SDL_Color yellowf = {255, 255, 0, 255};
 
 // Texturas
 static SDL_Texture* texFundoFim = NULL;
@@ -136,7 +146,6 @@ static void executar_acao_botao(GameState *currentState) {
     switch (botaoSelecionado) {
         case END_BUTTON_PLAYAGAIN:
             *currentState = STATE_PLAYING;
-            estaNaSplash = true; // Reseta o menu
             break;
         case END_BUTTON_MENUAGAIN:
             *currentState = STATE_MENU;
@@ -145,7 +154,7 @@ static void executar_acao_botao(GameState *currentState) {
     }
 }
 
-void fim_render(SDL_Renderer *renderer) {
+void fim_render(SDL_Renderer *renderer, Player player, App *app) {
     // Desenha o Sprite de Fundo ---
     if (texFundoFim != NULL) {
         SDL_RenderCopy(renderer, texFundoFim, NULL, &rectFundoFim);
@@ -158,6 +167,15 @@ void fim_render(SDL_Renderer *renderer) {
     // Desenha a tela de GameOver
     SDL_RenderCopy(renderer, texSplashGameOver, NULL, &rectSplashGameOver);
 
+    // Desenhar a pontuação atingida ---
+
+    if (app -> font) {
+        char hudText[150];
+
+        sprintf(hudText, "Voce fez %d pontos!", player.points);
+        drawText(renderer, app -> font, hudText, SCREEN_WIDTH / 2, 150, whitef);
+    }
+    
     // Botão Jogar
     if (botaoSelecionado == END_BUTTON_PLAYAGAIN) {
         SDL_RenderCopy(renderer, texBotaoJogarNovamente_H, NULL, &rectBotaoJogarNovamente);
