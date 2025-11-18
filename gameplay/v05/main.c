@@ -13,6 +13,7 @@
 #include "render.h"
 #include "text.h"
 #include "menu.h"
+#include "fim.h"
 
 /**
  * Libera os recursos da SDL.
@@ -78,6 +79,7 @@ int main(void) {
     GameState previousState = STATE_MENU; // Variável para rastrear reinício
 
     menu_init(renderer);
+    fim_init(renderer);
     bool running = true;
     SDL_Event event;
 
@@ -119,7 +121,7 @@ int main(void) {
                     handleLevelUpInput(&event, &player, &currentState, &running);
                     break;
                 case STATE_END:
-                    handleEndInput(&event, &currentState, &running);
+                    fim_handle_input(&event, &currentState);
                     break;
                 // case GAME_STATE_SCOREBOARD:
                 //    handleScoreboardInput(&currentState, &running); // Se existir
@@ -139,10 +141,10 @@ int main(void) {
             lastEnemySpawnTime = SDL_GetTicks();
         }
         
-        // Se saímos do Fim de Jogo/Placar e voltamos ao menu...
-        //if ((previousState == STATE_END || previousState == STATE_SCOREBOARD) && currentState == STATE_MENU) {
-        //    initMenu(); 
-        //}
+        //Se saímos do Fim de Jogo/Placar e voltamos ao menu...
+        if ((previousState == STATE_END || previousState == STATE_SCOREBOARD) && currentState == STATE_MENU) {
+            menu_init(renderer);
+        }
 
         // 3. Atualizar Estado do Jogo
         if (currentState == STATE_PLAYING) {
@@ -197,6 +199,8 @@ int main(void) {
     cleanup(window, renderer, &app, &player);
     
     menu_destroy();
+
+    fim_destroy();
 
     IMG_Quit();
     

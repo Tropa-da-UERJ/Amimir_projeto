@@ -127,7 +127,13 @@ void menu_handle_input(SDL_Event *event, GameState *currentState) {
                 case SDLK_DOWN:
                     botaoSelecionado = (botaoSelecionado + 1) % MENU_BUTTON_COUNT;
                     break;
+                case SDLK_s:
+                    botaoSelecionado = (botaoSelecionado + 1) % MENU_BUTTON_COUNT;
+                    break;
                 case SDLK_UP:
+                    botaoSelecionado = (botaoSelecionado - 1 + MENU_BUTTON_COUNT) % MENU_BUTTON_COUNT;
+                    break;
+                case SDLK_w:
                     botaoSelecionado = (botaoSelecionado - 1 + MENU_BUTTON_COUNT) % MENU_BUTTON_COUNT;
                     break;
                 

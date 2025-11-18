@@ -2,6 +2,7 @@
 #include "defs.h"
 #include "menu.h"
 #include "text.h"
+#include "fim.h"
 
 // Cores que usaremos
 SDL_Color white = {255, 255, 255, 255};
@@ -88,6 +89,11 @@ void render(SDL_Renderer * renderer, App * app, Player player, Enemy enemies[], 
   // --- 2. Desenha o Menu (STATE_MENU) ---
   else if (currentState == STATE_MENU) {
     menu_render(renderer);
+  }
+
+    // --- 3. Desenha o Fim de Jogo (STATE_END) ---
+  else if (currentState == STATE_END) {
+    fim_render(renderer);
   }
 
   // --- 4. Desenha a Tela de Level Up (POR CIMA de STATE_PLAYING) ---
