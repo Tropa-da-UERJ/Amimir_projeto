@@ -69,16 +69,3 @@ void handleLevelUpInput (SDL_Event *event, Player *player, GameState *currentSta
     }
 }
 
-void handleEndInput(SDL_Event *event, GameState *currentState, bool *running) {
-    if (event->type == SDL_KEYDOWN) {
-        switch (event->key.keysym.sym) {
-            case SDLK_ESCAPE:
-                *currentState = STATE_QUIT;
-                break;
-            case SDLK_RETURN:
-                *currentState = STATE_MENU;
-                break;
-        }
-    }
-}
-

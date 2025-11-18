@@ -52,7 +52,8 @@ typedef enum {
     STATE_LEVELUP,
     STATE_END,
     STATE_PAUSED,
-    STATE_QUIT
+    STATE_QUIT,
+    STATE_SCOREBOARD
 } GameState;
 
 // --- Estruturas de Dados ---
@@ -102,5 +103,11 @@ typedef enum {
     MENU_BUTTON_QUIT,
     MENU_BUTTON_COUNT // Usado para saber quantos botões temos
 } MenuButton;
+
+typedef enum {
+    END_BUTTON_PLAYAGAIN,
+    END_BUTTON_MENUAGAIN,
+    END_BUTTON_COUNT // Usado para saber quantos botões temos
+} EndButton;
 
 #endif // DEFS_H
