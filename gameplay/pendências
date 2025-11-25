@@ -4,7 +4,7 @@
 - [] adicionar sprites aos inimigos
 
 - [] velocidade diagonal do personagem não está normalizada
-- [] centralizar texto de pontuação na tela de game over
+- [x] centralizar texto de pontuação na tela de game over
 
 - [] adicionar timer de 5mins (5000ms)
 - [] adicionar tela escurecendo com o tempo (spotlight no personagem)
