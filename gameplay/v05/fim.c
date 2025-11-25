@@ -171,11 +171,11 @@ void fim_render(SDL_Renderer *renderer, Player player, App *app) {
 
     if (app -> font) {
         char hudText[150];
-        int textW, int textH; // armazena largura e altura do texto
+        int textW, textH; // armazena largura e altura do texto
 
         sprintf(hudText, "Voce fez %d pontos!", player.points);
         
-        TTF_SizeText(app -> font, hudText, &textW, &int textH); // tamanho que o texto ocupará na tela
+        TTF_SizeText(app -> font, hudText, &textW, &textH); // tamanho que o texto ocupará na tela
 
         int xCentral = (SCREEN_WIDTH - textW)/2; // posição x para que o centro do texto fique no centro da tela
         
@@ -206,4 +206,3 @@ void fim_destroy(void) {
     SDL_DestroyTexture(texBotaoJogarNovamente_H);
     SDL_DestroyTexture(texBotaoVoltarMenu_H);
 }
-
