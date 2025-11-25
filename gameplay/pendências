@@ -1,11 +1,11 @@
--[] adicionar botao "Voltar ao Menu" na tela de game over
--[] adicionar botao "Jogar Novamente" na tela de game over
--[] adicionar texto "Pressione qualquer tecla para continuar" piscando no inicio
--[] adicionar sprites aos inimigos
+- [] adicionar botao "Voltar ao Menu" na tela de game over
+- [] adicionar botao "Jogar Novamente" na tela de game over
+- [] adicionar texto "Pressione qualquer tecla para continuar" piscando no inicio
+- [] adicionar sprites aos inimigos
 
--[] velocidade diagonal do personagem não está normalizada
--[] centralizar texto de pontuação na tela de game over
+- [] velocidade diagonal do personagem não está normalizada
+- [] centralizar texto de pontuação na tela de game over
 
--[] adicionar timer de 5mins (5000ms)
--[] adicionar tela escurecendo com o tempo (spotlight no personagem)
--[] adicionar spawn de inimigos baseado no tempo ("waves")
+- [] adicionar timer de 5mins (5000ms)
+- [] adicionar tela escurecendo com o tempo (spotlight no personagem)
+- [] adicionar spawn de inimigos baseado no tempo ("waves")
