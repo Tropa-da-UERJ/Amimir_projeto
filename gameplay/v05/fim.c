@@ -62,11 +62,11 @@ void fim_init(SDL_Renderer *renderer) {
     texSplashGameOver = carregarTextura("assets/splash_gameover.png", renderer);
     
     // Carrega assets do Menu
-    texBotaoJogarNovamente = carregarTextura("assets/menu_botao_jogardnv.png", renderer);
-    texBotaoVoltarMenu = carregarTextura("assets/menu_botao_voltarmenu.png", renderer);
+    texBotaoJogarNovamente = carregarTextura("assets/botao_jogardnv.png", renderer);
+    texBotaoVoltarMenu = carregarTextura("assets/botao_voltarmenu.png", renderer);
 
-    texBotaoJogarNovamente_H = carregarTextura("assets/menu_botao_jogardnv_H.png", renderer);
-    texBotaoVoltarMenu_H = carregarTextura("assets/menu_botao_voltarmenu_H.png", renderer);
+    texBotaoJogarNovamente_H = carregarTextura("assets/botao_jogardnv_H.png", renderer);
+    texBotaoVoltarMenu_H = carregarTextura("assets/botao_voltarmenu_H.png", renderer);
 
     // --- Define Posições (usando o tamanho real das texturas) ---
     int texW, texH;
