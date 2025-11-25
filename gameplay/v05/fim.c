@@ -171,9 +171,15 @@ void fim_render(SDL_Renderer *renderer, Player player, App *app) {
 
     if (app -> font) {
         char hudText[150];
+        int textW, int textH; // armazena largura e altura do texto
 
         sprintf(hudText, "Voce fez %d pontos!", player.points);
-        drawText(renderer, app -> font, hudText, SCREEN_WIDTH / 2, 150, whitef);
+        
+        TTF_SizeText(app -> font, hudText, &textW, &int textH); // tamanho que o texto ocupará na tela
+
+        int xCentral = (SCREEN_WIDTH - textW)/2; // posição x para que o centro do texto fique no centro da tela
+        
+        drawText(renderer, app -> font, hudText, xCentral , 150, whitef);
     }
     
     // Botão Jogar
