@@ -94,8 +94,6 @@ void render(SDL_Renderer * renderer, App * app, Player player, Enemy enemies[], 
       Uint32 now = SDL_GetTicks();
       if ((now % 1000) < 500) { // Pisca a cada 1 segundo (500ms on, 500ms off)
         const char *flashText = "Pressione qualquer tecla para continuar";
-        // Calculamos X para centralizar o texto (aproximação sem saber a largura exata)
-        // O texto centralizado aparecerá em torno de 200, que é uma boa estimativa para o tamanho da tela:
         drawText(renderer, app->font, flashText, 200, 400, white);
       }
     }
