@@ -98,7 +98,7 @@ void menu_init(SDL_Renderer *renderer) {
 void menu_handle_input(SDL_Event *event, GameState *currentState) {
     // 1. Inputs da Tela Splash
     if (estaNaSplash) {
-        if (event->type == SDL_KEYDOWN && (event->key.keysym.sym == SDLK_RETURN || event->key.keysym.sym == SDLK_KP_ENTER)) {
+        if (event->type == SDL_KEYDOWN || event->type == SDL_MOUSEBUTTONDOWN) {
             estaNaSplash = false; // Sai da splash, vai para o menu principal
         }
     }
