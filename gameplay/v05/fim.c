@@ -72,13 +72,15 @@ void fim_init(SDL_Renderer *renderer) {
     int texW, texH;
     
     // Posições Menu
-    const int ESPACAMENTO_BOTAO = 20;
+    const int ESPACAMENTO_BOTAO = 30;
+
+    const int DESLOCAMENTO_VERTICAL = 50;
 
     SDL_QueryTexture(texSplashGameOver, NULL, NULL, &texW, &texH);
     rectSplashGameOver = (SDL_Rect){ (SCREEN_WIDTH - texW) / 2, 80, texW, texH };
     
     SDL_QueryTexture(texBotaoJogarNovamente, NULL, NULL, &texW, &texH);
-    rectBotaoJogarNovamente = (SDL_Rect){ (SCREEN_WIDTH - texW) / 2, 200, texW, texH };
+    rectBotaoJogarNovamente = (SDL_Rect){ (SCREEN_WIDTH - texW) / 2, 200 + DESLOCAMENTO_VERTICAL, texW, texH };
     
     SDL_QueryTexture(texBotaoVoltarMenu, NULL, NULL, &texW, &texH);
     rectBotaoVoltarMenu = (SDL_Rect){ (SCREEN_WIDTH - texW) / 2, rectBotaoJogarNovamente.y + rectBotaoJogarNovamente.h + ESPACAMENTO_BOTAO, texW, texH };
@@ -179,7 +181,7 @@ void fim_render(SDL_Renderer *renderer, Player player, App *app) {
 
         int xCentral = (SCREEN_WIDTH - textW)/2; // posição x para que o centro do texto fique no centro da tela
         
-        drawText(renderer, app -> font, hudText, xCentral , 150, whitef);
+        drawText(renderer, app -> font, hudText, xCentral , 185, whitef);
     }
     
     // Botão Jogar
