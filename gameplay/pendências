@@ -1,5 +1,5 @@
-- [] adicionar botao "Voltar ao Menu" na tela de game over
-- [] adicionar botao "Jogar Novamente" na tela de game over
+- [x] adicionar botao "Voltar ao Menu" na tela de game over
+- [x] adicionar botao "Jogar Novamente" na tela de game over
 - [] adicionar texto "Pressione qualquer tecla para continuar" piscando no inicio
 - [] adicionar sprites aos inimigos
 
