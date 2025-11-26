@@ -1,11 +1,11 @@
 #include "menu.h"
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
+#include "text.h"
 
 // Texturas
 static SDL_Texture* texFundoMenu = NULL;
 static SDL_Texture* texSplashNome = NULL;
-static SDL_Texture* texSplashEnter = NULL;
 static SDL_Texture* texMenuTitulo = NULL;
 
 // Texturas para o estado NORMAL
@@ -23,11 +23,11 @@ static MenuButton botaoSelecionado = MENU_BUTTON_PLAY;
 // Posições
 static SDL_Rect rectFundoMenu;
 static SDL_Rect rectSplashNome;
-static SDL_Rect rectSplashEnter;
 static SDL_Rect rectMenuTitulo;
 static SDL_Rect rectBotaoJogar;
 static SDL_Rect rectBotaoOpcoes;
 static SDL_Rect rectBotaoSair;
+
 
 static void executar_acao_botao(GameState *currentState);
 static bool estaNaSplash = true;
@@ -57,7 +57,6 @@ void menu_init(SDL_Renderer *renderer) {
 
     // Carrega assets da Splash
     texSplashNome = carregarTextura("assets/splash_nome_jogo.png", renderer);
-    texSplashEnter = carregarTextura("assets/splash_press_enter.png", renderer);
     
     // Carrega assets do Menu
     texMenuTitulo = carregarTextura("assets/menu_titulo.png", renderer);
@@ -76,8 +75,6 @@ void menu_init(SDL_Renderer *renderer) {
     SDL_QueryTexture(texSplashNome, NULL, NULL, &texW, &texH);
     rectSplashNome = (SDL_Rect){ (SCREEN_WIDTH - texW) / 2, 150, texW, texH };
     
-    SDL_QueryTexture(texSplashEnter, NULL, NULL, &texW, &texH);
-    rectSplashEnter = (SDL_Rect){ (SCREEN_WIDTH - texW) / 2, 400, texW, texH };
 
     // Posições Menu
     const int ESPACAMENTO_BOTAO = 20;
@@ -182,6 +179,10 @@ static void executar_acao_botao(GameState *currentState) {
     }
 }
 
+bool menu_is_in_splash(void) {
+    return estaNaSplash;
+}
+
 void menu_render(SDL_Renderer *renderer) {
     // Desenha o Sprite de Fundo ---
     if (texFundoMenu != NULL) {
@@ -195,7 +196,7 @@ void menu_render(SDL_Renderer *renderer) {
     if (estaNaSplash) {
         // Desenha a tela de Splash
         SDL_RenderCopy(renderer, texSplashNome, NULL, &rectSplashNome);
-        SDL_RenderCopy(renderer, texSplashEnter, NULL, &rectSplashEnter);
+
     } else {
         // Desenha o Menu Principal
         SDL_RenderCopy(renderer, texMenuTitulo, NULL, &rectMenuTitulo);
@@ -227,7 +228,6 @@ void menu_destroy(void) {
     // Libera todas as texturas
     SDL_DestroyTexture(texFundoMenu);
     SDL_DestroyTexture(texSplashNome);
-    SDL_DestroyTexture(texSplashEnter);
     SDL_DestroyTexture(texMenuTitulo);
     SDL_DestroyTexture(texBotaoJogar);
     SDL_DestroyTexture(texBotaoOpcoes);
