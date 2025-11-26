@@ -9,3 +9,5 @@
 - [] adicionar timer de 5mins (5000ms)
 - [] adicionar tela escurecendo com o tempo (spotlight no personagem)
 - [] adicionar spawn de inimigos baseado no tempo ("waves")
+
+- [] implementar mais upgrades e tornar os 3 upgrades oferecidos "aleatórios"
