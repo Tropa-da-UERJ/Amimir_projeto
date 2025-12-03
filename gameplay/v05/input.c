@@ -1,4 +1,5 @@
 #include "input.h"
+#include <math.h>
 
 void handlePlayingInput_Events(SDL_Event *event, bool *running) {
     if (event->type == SDL_KEYDOWN) {
@@ -17,17 +18,36 @@ void handlePlayingInput_State(Player *player) {
     player->dx = 0;
     player->dy = 0;
 
+    float dirX = 0.0f;
+    float dirY = 0.0f;
+
     if (keystates[SDL_SCANCODE_LEFT] || keystates[SDL_SCANCODE_A]) {
-        player->dx -= player->speed;
+        dirX -= 1.0f;
     }
     if (keystates[SDL_SCANCODE_RIGHT] || keystates[SDL_SCANCODE_D]) {
-        player->dx += player->speed;
+        dirX += 1.0f;
     }
     if (keystates[SDL_SCANCODE_UP] || keystates[SDL_SCANCODE_W]) {
-        player->dy -= player->speed;
+        dirY -= 1.0f;
     }
     if (keystates[SDL_SCANCODE_DOWN] || keystates[SDL_SCANCODE_S]) {
-        player->dy += player->speed;
+        dirY += 1.0f;
+    }
+
+    // normalização vetorial (correção da diagonal)
+    float length = sqrtf(dirX * dirX + dirY * dirY);
+
+    if (length > 0.0f) {
+        // transforma (1, 1) em (0.707, 0.707)
+        dirX /= length; 
+        dirY /= length;
+
+        player->dx = dirX * player->speed;
+        player->dy = dirY * player->speed;
+    } else{
+        // se não houver tecla pressionada (length == 0), para o player
+        player->dx = 0.0f;
+        player->dy = 0.0f;
     }
 }
 
