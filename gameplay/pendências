@@ -4,7 +4,7 @@
 - [] adicionar sprites aos inimigos
 - [] sprite para o ataque "Zs" (?)
 
-- [] velocidade diagonal do personagem não está normalizada
+- [x] velocidade diagonal do personagem não está normalizada
 - [x] centralizar texto de pontuação na tela de game over
 
 - [] adicionar timer de 5mins (5000ms)
@@ -12,3 +12,7 @@
 - [] adicionar spawn de inimigos baseado no tempo ("waves")
 
 - [] implementar mais upgrades e tornar os 3 upgrades oferecidos "aleatórios"
+  -Dano Base +10%: Multiplicador simples na variável de dano ao colidir com o inimigo.
+  -Multishot (Tiro Múltiplo) +1: Quando a função de atirar for chamada, instancie um segundo projétil com um leve ângulo de diferença (ex: +15 graus). Requer um loop for na função de disparo baseado na variável projectile_amount.
+  -Esquiva (Dodge)
+  -Velocidade do Projétil +15%
