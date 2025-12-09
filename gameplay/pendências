@@ -1,8 +1,8 @@
 - [x] adicionar botao "Voltar ao Menu" na tela de game over
 - [x] adicionar botao "Jogar Novamente" na tela de game over
 - [x] adicionar texto "Pressione qualquer tecla para continuar" piscando no inicio
-- [] adicionar sprites aos inimigos
-- [] sprite para o ataque "Zs" (?)
+- [*] adicionar sprites aos inimigos (falta a ansiedade)
+- [x] Ataque com "Zs" (?)
 
 - [x] velocidade diagonal do personagem não está normalizada
 - [x] centralizar texto de pontuação na tela de game over
