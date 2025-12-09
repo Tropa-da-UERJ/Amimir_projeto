@@ -50,6 +50,9 @@
 #define ROUND_DURATION_MINUTES 5
 #define ROUND_DURATION_MS (ROUND_DURATION_MINUTES * 60 * 1000) // transforma minutos em milisegundos
 
+#define MAX_MAX_DARKNESS_ALPHA 200 // (0 a 255)
+#define SPOTLIGHT_RADIUS 120 // area iluminada ao redor do jogador (em pixels)
+
 // --- Estados do Jogo ---
 typedef enum {
     STATE_SPLASH,
@@ -109,6 +112,9 @@ typedef struct {
     //timer
     Uint32 roundStartTime;
     Uint32 elapsedTime;
+
+    //iluminação
+    int currentDarknessAlpha;
 } App;
 
 typedef enum {
