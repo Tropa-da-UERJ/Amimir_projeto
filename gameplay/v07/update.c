@@ -332,6 +332,16 @@ void update(Player *player, Enemy enemies[], Bullet bullets[], Bullet enemyBulle
         // FIM DE JOGO (VITÓRIA)
         *currentState = STATE_END;
         return;
+
+    // 7. Escurecimento da tela baseado no timer
+    
+    float elapsed_percent = (float)app->elapsedTime / ROUND_DURATION_MS; // porcentagem de tempo passado
+    int targetAlpha = (int)(elapsed_percent * MAX_DARKNESS_ALPHA);
+
+    if (targetAlpha < 0)
+        targetAlpha = 0;
+    
+    app->currentDarknessAlpha = tagetAlpha;
     }
   
 }
