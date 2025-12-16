@@ -247,7 +247,7 @@ void update(Player *player, Enemy enemies[], Bullet bullets[], Bullet enemyBulle
     
     if (app->elapsedTime > timeLimitThreshold) {
         currentSpawnInterval = ENEMY_SPAWN_INTERVAL / 2; // 400ms - Dobra a velocidade de spawn
-        // Você também pode mudar as cores de fundo ou forçar um tipo de inimigo aqui
+        // mudar os tipos de inimigo aqui
     }
     
     // 3. Spawns de Inimigos
