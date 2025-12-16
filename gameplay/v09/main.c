@@ -39,7 +39,7 @@ int main(void) {
     if (TTF_Init() == -1) return 1;
 
     // Criação da Janela
-    SDL_Window *window = SDL_CreateWindow("A mimir v0.8",
+    SDL_Window *window = SDL_CreateWindow("A mimir v0.9",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
                                           SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -193,11 +193,11 @@ int main(void) {
         if (running) {
             char windowTitle[100];
             if (currentState == STATE_PLAYING || currentState == STATE_LEVELUP) {
-                sprintf(windowTitle, "A mimir v0.8 - HP: %d/%d | Pontos: %d", player.hp, player.max_hp, player.points);
+                sprintf(windowTitle, "A mimir v0.9 - HP: %d/%d | Pontos: %d", player.hp, player.max_hp, player.points);
             } else if (currentState == STATE_MENU) {
-                sprintf(windowTitle, "A mimir v0.8 - Menu Principal");
+                sprintf(windowTitle, "A mimir v0.9 - Menu Principal");
             } else if (currentState == STATE_END) {
-                sprintf(windowTitle, "A mimir v0.8 - Fim de Jogo!");
+                sprintf(windowTitle, "A mimir v0.9 - Fim de Jogo!");
             }
             SDL_SetWindowTitle(window, windowTitle);
         }
