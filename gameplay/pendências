@@ -9,7 +9,7 @@
 
 - [x] adicionar timer de 5mins (5000ms)
 - [x] adicionar tela escurecendo com o tempo (spotlight no personagem)
-- [] adicionar spawn de inimigos baseado no tempo ("waves")
+- [/] adicionar spawn de inimigos baseado no tempo ("waves")
 
 - [] implementar mais upgrades e tornar os 3 upgrades oferecidos "aleatórios"
   -Dano Base +10%: Multiplicador simples na variável de dano ao colidir com o inimigo.
