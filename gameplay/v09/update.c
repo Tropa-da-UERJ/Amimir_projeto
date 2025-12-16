@@ -239,11 +239,21 @@ void update(Player *player, Enemy enemies[], Bullet bullets[], Bullet enemyBulle
           }
     }
     
+     // LÓGICA DE DIFICULDADE BASEADA NO TEMPO ---
+    
+    // Exemplo: Aumentar spawn rate na metade do tempo (2.5 minutos)
+    Uint32 timeLimitThreshold = ROUND_DURATION_MS / 2;
+    int currentSpawnInterval = ENEMY_SPAWN_INTERVAL; // 800ms
+    
+    if (app->elapsedTime > timeLimitThreshold) {
+        currentSpawnInterval = ENEMY_SPAWN_INTERVAL / 2; // 400ms - Dobra a velocidade de spawn
+        // Você também pode mudar as cores de fundo ou forçar um tipo de inimigo aqui
+    }
+    
     // 3. Spawns de Inimigos
-    Uint32 currentTime = SDL_GetTicks(); // 'now' já foi declarado acima
-    if (currentTime - *lastEnemySpawnTime > ENEMY_SPAWN_INTERVAL) {
+    if (now > *lastEnemySpawnTime + currentSpawnInterval) {
         spawnEnemy(enemies);
-        *lastEnemySpawnTime = currentTime;
+        *lastEnemySpawnTime = now;
     }
 
     // 4. Atualizar Inimigos (Perseguição)
